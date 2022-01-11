@@ -50,7 +50,7 @@ spec:
   selector:
     app: emailservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 5000
     targetPort: 8080
 ---
@@ -108,7 +108,7 @@ spec:
   selector:
     app: recommendationservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 8080
     targetPort: 8080
 ---
@@ -164,7 +164,7 @@ spec:
   selector:
     app: productcatalogservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 3550 
     targetPort: 3550
 ---
@@ -220,7 +220,7 @@ spec:
   selector:
     app: paymentservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 50051
     targetPort: 50051
 ---
@@ -276,7 +276,7 @@ spec:
   selector:
     app: currencyservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 7000
     targetPort: 7000
 ---
@@ -332,7 +332,7 @@ spec:
   selector:
     app: shippingservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 50051
     targetPort: 50051
 ---
@@ -388,7 +388,7 @@ spec:
   selector:
     app: adservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 9555
     targetPort: 9555
 ---
@@ -446,7 +446,7 @@ spec:
   selector:
     app: cartservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 7070
     targetPort: 7070
 ---
@@ -506,7 +506,7 @@ spec:
   selector:
     app: redis-cart
   ports:
-  - name: tcp
+  - name: grpc
     port: 6379
     targetPort: 6379
 ---
@@ -574,7 +574,7 @@ spec:
   selector:
     app: checkoutservice
   ports:
-  - name: tcp
+  - name: grpc
     port: 5050
     targetPort: 5050
 ---
@@ -640,11 +640,23 @@ kind: Service
 metadata:
   name: frontend
 spec:
-  type: nodePort
+  type: ClusterIP
   selector:
     app: frontend
   ports:
-  - name: TCP
+  - name: http
     port: 80
     targetPort: 8080
-    nordPort: 30007
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-external
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
